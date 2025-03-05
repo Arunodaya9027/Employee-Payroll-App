@@ -12,7 +12,6 @@ public class EmployeePayrollService {
     @Autowired
     private EmployeePayrollRepository employeePayrollRepository;
 
-//    @PostConstruct
     public void testDatabaseConnection() {
         EmployeePayrollDTO employee = new EmployeePayrollDTO();
         employee.setName("Test Employee");
