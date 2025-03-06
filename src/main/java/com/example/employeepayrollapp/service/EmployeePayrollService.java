@@ -1,7 +1,7 @@
 package com.example.employeepayrollapp.service;
 
 import com.example.employeepayrollapp.dto.EmployeePayrollDTO;
-import jakarta.annotation.PostConstruct;
+import com.example.employeepayrollapp.model.EmployeePayroll;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.employeepayrollapp.repository.EmployeePayrollRepository;
 import org.springframework.stereotype.Service;
@@ -15,26 +15,28 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     private EmployeePayrollRepository employeePayrollRepository;
 
     @Override
-    public List<EmployeePayrollDTO> getEmployeePayrollData() {
+    public List<EmployeePayroll> getEmployeePayrollData() {
         return employeePayrollRepository.findAll();
     }
 
     @Override
     public EmployeePayrollDTO getEmployeePayrollDataById(long empId) {
-        return employeePayrollRepository.findById(empId).get();
+        return new EmployeePayrollDTO(employeePayrollRepository.findById(empId).orElseThrow(() -> new RuntimeException("Employee Payroll not found with id: " + empId)));
     }
 
     @Override
-    public EmployeePayrollDTO createEmployeePayrollData(EmployeePayrollDTO empPayrollDTO) {
-        return employeePayrollRepository.save(empPayrollDTO);
+    public EmployeePayroll createEmployeePayrollData(EmployeePayrollDTO empPayrollDTO) {
+        EmployeePayroll employeePayroll = new EmployeePayroll(empPayrollDTO);
+        return employeePayrollRepository.save(employeePayroll);
     }
 
     @Override
     public boolean updateEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO, EmployeePayrollDTO updatedEmployeePayrollDTO) {
         try {
-            employeePayrollDTO.setName(updatedEmployeePayrollDTO.getName());
-            employeePayrollDTO.setSalary(updatedEmployeePayrollDTO.getSalary());
-            employeePayrollRepository.save(employeePayrollDTO);
+            EmployeePayroll employeePayroll = new EmployeePayroll(employeePayrollDTO);
+            employeePayroll.setName(updatedEmployeePayrollDTO.getName());
+            employeePayroll.setSalary(updatedEmployeePayrollDTO.getSalary());
+            employeePayrollRepository.save(employeePayroll);
             return true;
         } catch (Exception e) {
             return false;

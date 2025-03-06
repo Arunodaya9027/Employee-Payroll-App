@@ -1,13 +1,14 @@
 package com.example.employeepayrollapp.service;
 
 import com.example.employeepayrollapp.dto.EmployeePayrollDTO;
+import com.example.employeepayrollapp.model.EmployeePayroll;
 
 import java.util.List;
 
 public interface IEmployeePayrollService {
-    List<EmployeePayrollDTO> getEmployeePayrollData();
+    List<EmployeePayroll> getEmployeePayrollData();
     EmployeePayrollDTO getEmployeePayrollDataById(long empId);
-    EmployeePayrollDTO createEmployeePayrollData(EmployeePayrollDTO empPayrollDTO);
+    EmployeePayroll createEmployeePayrollData(EmployeePayrollDTO empPayrollDTO);
     boolean updateEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO, EmployeePayrollDTO updatedEmployeePayrollDTO);
     void deleteEmployeePayrollData(long empId);
 }
