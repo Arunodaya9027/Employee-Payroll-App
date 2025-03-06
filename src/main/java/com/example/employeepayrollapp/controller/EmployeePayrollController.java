@@ -27,7 +27,7 @@ public class EmployeePayrollController {
     @GetMapping("/get/{empId}")
     public ResponseEntity<ResponseDTO> getAllEmployeePayroll(@PathVariable Long empId) {
         try {
-            EmployeePayrollDTO employeePayroll = employeePayrollService.getEmployeePayrollDataById(empId);
+            EmployeePayroll employeePayroll = employeePayrollService.getEmployeePayrollDataById(empId);
             return new ResponseEntity<>(new ResponseDTO("Get Call for ID Successful", employeePayroll), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ResponseDTO("Get Call for ID Unsuccessful", e.getMessage()), HttpStatus.NOT_FOUND);
@@ -42,17 +42,17 @@ public class EmployeePayrollController {
 
     @PutMapping("/update/{empId}")
     public ResponseEntity<ResponseDTO> updateEmployeePayroll(@PathVariable Long empId, @RequestBody EmployeePayrollDTO updatedEmployeePayroll) {
-        EmployeePayrollDTO employeePayrollData = employeePayrollService.getEmployeePayrollDataById(empId);
-        boolean operation = employeePayrollService.updateEmployeePayrollData(employeePayrollData, updatedEmployeePayroll);
+        EmployeePayroll employeePayroll = employeePayrollService.getEmployeePayrollDataById(empId);
+        boolean operation = employeePayrollService.updateEmployeePayrollData(employeePayroll, updatedEmployeePayroll);
         if(!operation)
-            return new ResponseEntity<>(new ResponseDTO("Update Failed", employeePayrollData), HttpStatus.NOT_MODIFIED);
-        return new ResponseEntity<>(new ResponseDTO("Updated Employee Payroll Data for:" + employeePayrollData + "to below Data ", updatedEmployeePayroll), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseDTO("Update Failed", employeePayroll), HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>(new ResponseDTO("Updated Employee Payroll Data for:" + employeePayroll + "to below Data ", updatedEmployeePayroll), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{empId}")
     public ResponseEntity<ResponseDTO> deleteEmployeePayroll(@PathVariable Long empId) {
         try {
-            EmployeePayrollDTO employeePayroll = employeePayrollService.getEmployeePayrollDataById(empId);
+            EmployeePayroll employeePayroll = employeePayrollService.getEmployeePayrollDataById(empId);
             employeePayrollService.deleteEmployeePayrollData(empId);
             return new ResponseEntity<ResponseDTO>(new ResponseDTO("Deleted Employee Payroll Data for id: " + empId, new EmployeePayrollDTO()), HttpStatus.OK);
         } catch (RuntimeException e) {

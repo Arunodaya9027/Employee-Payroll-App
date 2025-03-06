@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface IEmployeePayrollService {
     List<EmployeePayroll> getEmployeePayrollData();
-    EmployeePayrollDTO getEmployeePayrollDataById(long empId);
+    EmployeePayroll getEmployeePayrollDataById(long empId);
     EmployeePayroll createEmployeePayrollData(EmployeePayrollDTO empPayrollDTO);
-    boolean updateEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO, EmployeePayrollDTO updatedEmployeePayrollDTO);
+    boolean updateEmployeePayrollData(EmployeePayroll employeePayroll, EmployeePayrollDTO updatedEmployeePayrollDTO);
     void deleteEmployeePayrollData(long empId);
 }

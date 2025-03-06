@@ -20,8 +20,8 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     }
 
     @Override
-    public EmployeePayrollDTO getEmployeePayrollDataById(long empId) {
-        return new EmployeePayrollDTO(employeePayrollRepository.findById(empId).orElseThrow(() -> new RuntimeException("Employee Payroll not found with id: " + empId)));
+    public EmployeePayroll getEmployeePayrollDataById(long empId) {
+        return employeePayrollRepository.findById(empId).orElseThrow(() -> new RuntimeException("Employee Payroll not found with id: " + empId));
     }
 
     @Override
@@ -31,9 +31,8 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     }
 
     @Override
-    public boolean updateEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO, EmployeePayrollDTO updatedEmployeePayrollDTO) {
+    public boolean updateEmployeePayrollData(EmployeePayroll employeePayroll, EmployeePayrollDTO updatedEmployeePayrollDTO) {
         try {
-            EmployeePayroll employeePayroll = new EmployeePayroll(employeePayrollDTO);
             employeePayroll.setName(updatedEmployeePayrollDTO.getName());
             employeePayroll.setSalary(updatedEmployeePayrollDTO.getSalary());
             employeePayrollRepository.save(employeePayroll);
