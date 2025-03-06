@@ -6,18 +6,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.employeepayrollapp.repository.EmployeePayrollRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class EmployeePayrollService {
+public class EmployeePayrollService implements IEmployeePayrollService {
 
     @Autowired
     private EmployeePayrollRepository employeePayrollRepository;
 
-    public void testDatabaseConnection() {
-        EmployeePayrollDTO employee = new EmployeePayrollDTO();
-        employee.setName("Test Employee");
-        employee.setSalary(50000);
-        employeePayrollRepository.save(employee);
+    @Override
+    public List<EmployeePayrollDTO> getEmployeePayrollData() {
+        return employeePayrollRepository.findAll();
+    }
 
-        System.out.println("Employee saved successfully!");
+    @Override
+    public EmployeePayrollDTO getEmployeePayrollDataById(long empId) {
+        return employeePayrollRepository.findById(empId).get();
+    }
+
+    @Override
+    public EmployeePayrollDTO createEmployeePayrollData(EmployeePayrollDTO empPayrollDTO) {
+        return employeePayrollRepository.save(empPayrollDTO);
+    }
+
+    @Override
+    public boolean updateEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO, EmployeePayrollDTO updatedEmployeePayrollDTO) {
+        try {
+            employeePayrollDTO.setName(updatedEmployeePayrollDTO.getName());
+            employeePayrollDTO.setSalary(updatedEmployeePayrollDTO.getSalary());
+            employeePayrollRepository.save(employeePayrollDTO);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public void deleteEmployeePayrollData(long empId) {
+        employeePayrollRepository.deleteById(empId);
     }
 }
